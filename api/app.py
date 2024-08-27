@@ -1,8 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 from os import environ 
-from routes import agents_bp, routes_bp
-
+from api.routes import agents_bp, routes_bp
 app = Flask(__name__)
 
 app.register_blueprint(agents_bp, url_prefix='/api/agents')

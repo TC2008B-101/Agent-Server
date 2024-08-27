@@ -3,35 +3,33 @@ from typing import List, Optional
 from flask import Blueprint, jsonify, request
 from typing import List, Dict, Optional
 import requests
+from Agents.trailerSim import trailer_sim_handler
 
 agents_bp = Blueprint('agents', __name__)
 
 @agents_bp.route('', methods=['POST'])
 def create_agents_pipeline():
     # TODO: VALIDATE THE REQUEST IT MUST HAVE THE FOLLOWING JSON
-    # {
-    # "name": "string",
-    # "startDate": "date",
-    # "weatherReaport": "string",
-    # "maintenance": "string",
-    # "totalTime": "string",
-    # }
+
     print(request.get_json())
     data = request.get_json()
 
+    # Validate the request
+    required_fields = ['inicio', 'checkpoints', 'final']
+    if not all(field in data for field in required_fields):
+        return jsonify({
+            "error": "Missing required fields",
+            "description": "Please provide 'inicio', 'checkpoints', and 'final' in the request.",
+        }), 400
+
     # Validate and extract all the data from the request
     try:
-        [name, startDate, weatherReaport, maintenance, totalTime] = [
-            data['name'],
-            data['startDate'],
-            data['weatherReaport'],
-            data['maintenance'],
-            data['totalTime'],
-        ]
-
-        #TODO: Save the data to the database "agents" table
 
         #TODO: Execute the agent pipeline with the request data
+
+        simulation_result = trailer_sim_handler(data)
+
+        #TODO: Save the data to the database "agents" table
 
         #TODO: Return the response from the agent pipeline
 
