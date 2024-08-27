@@ -1,0 +1,2 @@
+# Development settings
+MONGO_URI="mongodb+srv://Cluster71888:<db_password>@cluster71888.kt6vp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster71888"

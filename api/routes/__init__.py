@@ -1,2 +1,1 @@
-from .agents_routes import *
-from .routes_routes import *
+from .simulation_routes import *
