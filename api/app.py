@@ -1,14 +1,14 @@
 from os import environ 
 from flask import Flask, jsonify
 from flask_cors import CORS
+from routes.simulation_routes import simulation_bp
 from pymongo import MongoClient
-from api.routes import simulation_bp
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 
-uri = config.MONGO_URI
-client = MongoClient(uri) 
+uri = config.get("MONGO_URI")
+client = MongoClient(uri)
 db = client['simulation_database']
 collection = db['simulations']
 

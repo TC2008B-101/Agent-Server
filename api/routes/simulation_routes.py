@@ -1,7 +1,7 @@
 import json
 from flask import Blueprint, jsonify, request
 from jsonschema import validate, ValidationError
-from agents.trailerSim import trailer_sim_handler # Assuming that it'll be created as this
+# from agents.trailerSim import trailer_sim_handler # Assuming that it'll be created as this
 from api.app import collection
 
 simulation_bp = Blueprint('simulation', __name__)
@@ -38,12 +38,12 @@ def generate_simulation_pipeline():
 
     # Main-Pipeline (Agent execution, database backup and returned response)
     try:
-        simulation_result = trailer_sim_handler(data)
+        # simulation_result = trailer_sim_handler(data)
         collection.insert_one(data)
 
         return jsonify({
             "message": "Data-simulation generated successfully",
-            "simulation_result": simulation_result 
+            # "simulation_result": simulation_result 
         }), 200
     except Exception as e:
         return jsonify({
