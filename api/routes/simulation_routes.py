@@ -22,6 +22,10 @@ schema = {
     "required": ["simulation_id", "route_name", "start_time", "weather", "maintenance", "total_time", "end_time", "coordinates", "segment"]
 }
 
+#TODO: CREATE A NEW PARAMETER SIMULATION_ID AND ADD IT TO THE JSON
+#TODO: THE GENERATED ID SHOULD BE UUID 
+#TODO: IN THE RESPONSE RETURN ALSO THE GENERATED SIMULATION_ID
+
 @simulation_bp.route('', methods=['POST'])
 def generate_simulation_pipeline():
 
@@ -51,3 +55,11 @@ def generate_simulation_pipeline():
             "error": str(e),
             "description": "Unexpected error occurred.",
         }), 500
+    
+#TODO: CREATE ANOTHER ENDPOINT FOR GET THAT RECEIVES THE SIMULATION_ID BY THE PARAMETERS
+
+#TODO: VALIDATE THE PARAMETERS FROM THE REQUEST
+
+#TODO: GET THE SIMULATION OF MONGODB THAT HAS THE SIMULATION_ID
+
+#TODO: RETURN THE SIMULATION JSON
