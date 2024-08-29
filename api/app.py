@@ -1,13 +1,12 @@
+from os import environ 
 from flask import Flask, jsonify
 from flask_cors import CORS
-from os import environ 
-from routes import agents_bp, routes_bp
+from api.routes.simulation_routes import simulation_bp
+
+#localhost:5000/simulation/api/simulation
 
 app = Flask(__name__)
-
-app.register_blueprint(agents_bp, url_prefix='/api/agents')
-app.register_blueprint(routes_bp, url_prefix='/api/routes')
-
+app.register_blueprint(simulation_bp, url_prefix='/api/simulation')
 CORS(app)
 
 @app.errorhandler(Exception)
