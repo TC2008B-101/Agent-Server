@@ -1,5 +1,6 @@
 node_modules
 agent-server
+server
 package-lock.json
 Agents
 python.py
