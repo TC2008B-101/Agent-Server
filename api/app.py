@@ -23,5 +23,3 @@ def handle_error(e):
 def root():
     return jsonify(message="Hello, /")
 
-if __name__ == "__main__":
-    app.run(debug=environ.get('DEBUG', False), host='0.0.0.0')

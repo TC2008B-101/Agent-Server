@@ -2,8 +2,8 @@
 from pymongo import MongoClient
 from dotenv import dotenv_values
 
-config = dotenv_values(".env")
-uri = config.get("MONGO_URI")
+
+uri = ("mongodb+srv://dlujan226:Daniel2006_@cluster0.57atq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 client = MongoClient(uri)
-db = client['simulation_database']
-collection = db['simulations']
+db = client['db20']
+collection = db["Simulation"]

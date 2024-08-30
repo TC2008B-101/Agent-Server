@@ -44,7 +44,7 @@ def generate_simulation_pipeline():
     try:
         
         simulation_result = trailer_sim_handler(data)
-        collection.insert_one(data)
+        collection.insert_one(simulation_result)
 
         return jsonify({
             "message": "Data-simulation generated successfully",
@@ -55,6 +55,9 @@ def generate_simulation_pipeline():
             "error": str(e),
             "description": "Unexpected error occurred.",
         }), 500
+
+
+
     
 #TODO: CREATE ANOTHER ENDPOINT FOR GET THAT RECEIVES THE SIMULATION_ID BY THE PARAMETERS
 
