@@ -4,8 +4,8 @@
     "start_time": 1000,
     "weather": 2,
     "maintenance": 0.4,
-    "total_time": 404,
-    "end_time": 1404,
+    "total_time": 393,
+    "end_time": 1393,
     "coordinates": [
         [
             10,
@@ -27,15 +27,15 @@
             "events": [
                 {
                     "event_name": "Banio",
-                    "event_time": 15
+                    "event_time": 18
                 },
                 {
                     "event_name": "Banio",
-                    "event_time": 7
+                    "event_time": 9
                 },
                 {
                     "event_name": "Cargamento",
-                    "event_time": 45
+                    "event_time": 46
                 }
             ],
             "estimated_time": 192
@@ -50,18 +50,14 @@
                 },
                 {
                     "event_name": "Banio",
-                    "event_time": 15
-                },
-                {
-                    "event_name": "Banio",
-                    "event_time": 16
+                    "event_time": 18
                 },
                 {
                     "event_name": "Mojapollos",
                     "event_time": 4
                 }
             ],
-            "estimated_time": 86
+            "estimated_time": 74
         },
         {
             "segment_id": 3,
@@ -69,14 +65,14 @@
             "events": [
                 {
                     "event_name": "Banio",
-                    "event_time": 20
+                    "event_time": 17
                 },
                 {
                     "event_name": "Banio",
                     "event_time": 6
                 }
             ],
-            "estimated_time": 126
+            "estimated_time": 127
         }
     ]
 }

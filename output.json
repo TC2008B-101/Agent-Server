@@ -1,9 +1,10 @@
 {
+    "_id": "66d265ece06f3eb9d665d3c2",
     "hora_inicio": "16:40",
+    "hora_llegada_calculada": "22:35",
     "tiempos_checkpoint": {
-        "Checkpoint 1": 192,
-        "Checkpoint 2": 86,
-        "Checkpoint 3": 126
-    },
-    "hora_llegada_calculada": "23:24"
+        "Checkpoint 1": 180,
+        "Checkpoint 2": 62,
+        "Checkpoint 3": 113
+    }
 }
