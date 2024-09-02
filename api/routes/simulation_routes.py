@@ -64,17 +64,27 @@ def generate_simulation_pipeline():
 
 @simulation_bp.route('', methods=['GET'])
 def get_all_simulations():
-    
     try:
         data = Dataset(headers=['ID', 'Hora Inicial', 'Hora Final', 'Tiempos de checkpoint'])
 
         simulations = list(collection.find())
         for simulation in simulations:
+            # Convert ObjectId to string
             simulation['_id'] = str(simulation['_id'])
-            unique_id, start, time, finish = simulation.values()
+            
+            # Access fields directly
+            unique_id = simulation.get('_id')
+            start = simulation.get('start_time')
+            finish = simulation.get('end_time')
+            time = simulation.get('total_time')
+            
+            # Append to dataset
             data.append([unique_id, start, finish, time])
-    
-        simulations.append(data.export('csv'))
+
+        # Export the data to CSV format and append it to the simulations list
+        csv_data = data.export('csv')
+        simulations.append(csv_data)
+        
         print(simulations)
         return jsonify(simulations), 200
     except Exception as e:
@@ -82,6 +92,7 @@ def get_all_simulations():
             "error": str(e),
             "description": "Unexpected error occurred while fetching simulations.",
         }), 500
+
 
 
 @simulation_bp.route('/<string:simulation_id>', methods=['GET'])
