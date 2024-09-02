@@ -52,8 +52,7 @@ def generate_simulation_pipeline():
         simulation_result['_id'] = str(result.inserted_id)
 
         return jsonify({
-            "message": "Data-simulation generated successfully",
-            "simulation_id": data['simulation_id'], 
+            "message": "Data-simulation generated successfully", 
             "simulation_result": simulation_result
         }), 200
     except Exception as e:
