@@ -1,25 +1,27 @@
 import json
+import uuid
 from flask import Blueprint, jsonify, request
 from jsonschema import validate, ValidationError
-from Agents.trailerSim import trailer_sim_handler # Assuming that it'll be created as this
+from Agents.trailerSim import start_simulation  
 from commons.db import collection
+
 
 simulation_bp = Blueprint('simulation', __name__)
 
 schema = {
     "type": "object",
     "properties": {
-        "simulation_id": {"type": "integer"},
+        
         "route_name": {"type": "string"},
         "start_time": {"type": "integer"},
-        "weather": {"type": "integer"},
+        "weather": {"type": "string"},
         "maintenance": {"type": "number"},
         "total_time": {"type": "integer"},
         "end_time": {"type": "integer"},
         "coordinates": {"type": "array"},
         "segment": {"type": "array"},
     },
-    "required": ["simulation_id", "route_name", "start_time", "weather", "maintenance", "total_time", "end_time", "coordinates", "segment"]
+    "required": ["route_name", "start_time", "weather", "maintenance", "total_time", "end_time", "coordinates", "segment"]
 }
 
 #TODO: CREATE A NEW PARAMETER SIMULATION_ID AND ADD IT TO THE JSON
@@ -28,7 +30,6 @@ schema = {
 
 @simulation_bp.route('', methods=['POST'])
 def generate_simulation_pipeline():
-
     # JSON Validation
     if not request.is_json:
         return jsonify({"error": "Request must be JSON"}), 400
@@ -36,19 +37,26 @@ def generate_simulation_pipeline():
     data = request.get_json()
 
     try:
+        # Validate JSON against schema
         validate(instance=data, schema=schema)
     except ValidationError as e:
         return jsonify({"error": str(e)}), 400
 
     # Main-Pipeline (Agent execution, database backup and returned response)
     try:
+        # Run the simulation and generate the result
+        simulation_result = start_simulation(data)
         
-        simulation_result = trailer_sim_handler(data)
-        collection.insert_one(simulation_result)
+        # Insert the simulation result into MongoDB
+        result = collection.insert_one(simulation_result)
+        
+        # Convert the ObjectId to string before returning it in JSON response
+        simulation_result['_id'] = str(result.inserted_id)
 
         return jsonify({
             "message": "Data-simulation generated successfully",
-            # "simulation_result": simulation_result 
+            "simulation_id": data['simulation_id'], 
+            "simulation_result": simulation_result
         }), 200
     except Exception as e:
         return jsonify({
