@@ -1,6 +1,8 @@
 import json
 import uuid
 from flask import Blueprint, jsonify, request
+from bson.objectid import ObjectId
+from tablib import Dataset
 from jsonschema import validate, ValidationError
 from Agents.trailerSim import start_simulation  
 from commons.db import collection
@@ -23,10 +25,6 @@ schema = {
     },
     "required": ["route_name", "start_time", "weather", "maintenance", "total_time", "end_time", "coordinates", "segment"]
 }
-
-#TODO: CREATE A NEW PARAMETER SIMULATION_ID AND ADD IT TO THE JSON
-#TODO: THE GENERATED ID SHOULD BE UUID 
-#TODO: IN THE RESPONSE RETURN ALSO THE GENERATED SIMULATION_ID
 
 @simulation_bp.route('', methods=['POST'])
 def generate_simulation_pipeline():
@@ -64,13 +62,46 @@ def generate_simulation_pipeline():
             "description": "Unexpected error occurred.",
         }), 500
 
-
-
+@simulation_bp.route('', methods=['GET'])
+def get_all_simulations():
     
-#TODO: CREATE ANOTHER ENDPOINT FOR GET THAT RECEIVES THE SIMULATION_ID BY THE PARAMETERS
+    try:
+        data = Dataset(headers=['ID', 'Hora Inicial', 'Hora Final', 'Tiempos de checkpoint'])
 
-#TODO: VALIDATE THE PARAMETERS FROM THE REQUEST
+        simulations = list(collection.find())
+        for simulation in simulations:
+            simulation['_id'] = str(simulation['_id'])
+            unique_id, start, time, finish = simulation.values()
+            data.append([unique_id, start, finish, time])
+    
+        simulations.append(data.export('csv'))
+        print(simulations)
+        return jsonify(simulations), 200
+    except Exception as e:
+        return jsonify({
+            "error": str(e),
+            "description": "Unexpected error occurred while fetching simulations.",
+        }), 500
 
-#TODO: GET THE SIMULATION OF MONGODB THAT HAS THE SIMULATION_ID
 
-#TODO: RETURN THE SIMULATION JSON
+@simulation_bp.route('/<string:simulation_id>', methods=['GET'])
+def get_simulation(simulation_id):
+
+    try:
+        try:
+            obj_id = ObjectId(simulation_id)
+        except:
+            return jsonify({"error": "Invalid simulation_id format or not founded"}), 400
+
+        simulation = collection.find_one({"_id": obj_id})
+
+        if simulation:
+            simulation['_id'] = str(simulation['_id'])
+            return jsonify(simulation), 200
+        else:
+            return jsonify({"error": "Simulation not found"}), 404
+    except Exception as e:
+        return jsonify({
+            "error": str(e),
+            "description": "Unexpected error occurred while fetching the simulation.",
+        }), 500

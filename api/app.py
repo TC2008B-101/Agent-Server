@@ -3,10 +3,6 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from api.routes.simulation_routes import simulation_bp
 
-#localhost:5000/api/simulation
-
-#TODO: REGISTRAR OTRO ENDPOINT PARA GET
-
 app = Flask(__name__)
 app.register_blueprint(simulation_bp, url_prefix='/api/simulation')
 CORS(app)
@@ -22,4 +18,3 @@ def handle_error(e):
 @app.route('/api/')
 def root():
     return jsonify(message="Hello, /")
-
